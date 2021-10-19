@@ -4,30 +4,32 @@ import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
 
-  Future<void> getInfo() async{
-     await Firebase.initializeApp();
-      FirebaseFirestore.instance.collection('chats/hsliijsRc1EdIqDoaxap/messages').snapshots().listen((data) {
-        data.docs.forEach((document) {
-          print(document['text']);
-        });
-      });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: ListView.builder(
-      itemCount: 2,
-      itemBuilder: (ctx,i){
-      return Container(
-        padding: const EdgeInsets.all(8),
-        child: const Text('Chat Screen'),
-      );
-    }),
+    return Scaffold(
+      body: StreamBuilder(
+      stream:FirebaseFirestore.instance.collection('chats/hsliijsRc1EdIqDoaxap/messages').snapshots(),
+      builder: (BuildContext ctx, AsyncSnapshot snapshotData){
+        if(snapshotData.connectionState == ConnectionState.waiting){
+          return const Center(child: CircularProgressIndicator(),);
+        }
+        final documents = snapshotData.data.docs;
+        return ListView.builder(
+          itemCount: documents.length,
+          itemBuilder: (ctx,i){
+          return Container(
+            padding: const EdgeInsets.all(8),
+            child: Text(documents[i]['text']),
+          );
+        });
+      } ,
+    ), 
     floatingActionButton: FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: (){
-       getInfo();
+        FirebaseFirestore.instance.collection('chats/hsliijsRc1EdIqDoaxap/messages').add({
+          'text':'This text added by button',
+        });
       },
     ),
     );
