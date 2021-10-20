@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MessageBuble extends StatelessWidget {
   final String message;
+  final String username;
   final bool currentUser;
   final Key? key;
 
-  MessageBuble(this.message,this.currentUser,{this.key}) : super(key: key);
+  MessageBuble(this.message,this.username,this.currentUser,{this.key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,17 @@ class MessageBuble extends StatelessWidget {
             bottomRight: currentUser ?  const Radius.circular(0) : const Radius.circular(12),
           )
         ),
-        child: Text(message,style: TextStyle(color:currentUser ? Colors.black : Colors.white,fontSize: 16)),
+        child: Column(
+          crossAxisAlignment: currentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start ,
+          children :[
+            Text(username,style: TextStyle(fontWeight: FontWeight.bold,color: currentUser ? Colors.black : Colors.white),),
+            Text(
+              message,
+              style: TextStyle(color:currentUser ? Colors.black : Colors.white,fontSize: 16),
+              textAlign: currentUser ? TextAlign.end : TextAlign.start,
+            ),
+          ]
+        ), 
       ), 
       ],
     );  

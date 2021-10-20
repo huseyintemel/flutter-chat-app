@@ -30,6 +30,7 @@ class Messages extends StatelessWidget {
                 itemBuilder: (ctx, i) {
                   return MessageBuble(
                     documents[i]['text'],
+                    documents[i]['username'],
                     documents[i]['userId'] == futureSnapshot.data.uid,
                     key: ValueKey(DateTime.now().toString()),
                   );
