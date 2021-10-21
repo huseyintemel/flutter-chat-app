@@ -20,6 +20,10 @@ class _AuthFormState extends State<AuthForm> {
   var userPassword = '';
   File? userImageFile;
 
+  void pickedImage(File image){
+    userImageFile = image;
+  }
+
   void submit(){
     final isValid = formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -31,13 +35,9 @@ class _AuthFormState extends State<AuthForm> {
 
     if(isValid){
       formKey.currentState!.save();
-      widget.formSubmit(userEmail.trim(),userPassword.trim(),userName.trim(),userImageFile!,isLogin,context);
+      widget.formSubmit(userEmail.trim(),userPassword.trim(),userName.trim(), userImageFile ?? File(''),isLogin,context);
     }
 
-  }
-
-  void pickedImage(File image){
-    userImageFile = image;
   }
 
   @override
