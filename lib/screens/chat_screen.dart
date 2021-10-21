@@ -16,6 +16,7 @@ class ChatScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: DropdownButton(
+              underline: Container(),
               icon: const Icon(Icons.more_vert,color: Colors.white,),
               items: [
                 DropdownMenuItem(
